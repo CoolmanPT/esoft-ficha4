@@ -8,6 +8,7 @@ package janelas;
 import gestor.DadosAplicacao;
 import javax.swing.JOptionPane;
 import modelo.Data;
+import modelo.Viagem;
 
 /**
  *
@@ -19,23 +20,25 @@ public class DetalhesViagem extends javax.swing.JDialog {
     private static final String ERRO2 = "Data inválida! P.f. preencha a data com formato dd/mm/yyyy";
     private static final String ERRO3 = "Ocupação inválida! P.f. preencha a ocupação com um valor maior ou igual a um";
     private static final String ERRO4 = "Número de pontos insuficientes! P.f. adicione no mínimo dois pontos de passagem diferentes";
+    private boolean dataCheck;
+
     /**
      * Creates new form DetalhesViagem
      */
     public DetalhesViagem(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        dataCheck = false;
         setLocationRelativeTo(null);
-        
+
         atualizarUtilizador();
-        
-        
+
     }
-    
-    public void mostrar(){
+
+    public void mostrar() {
         this.setVisible(true);
     }
-    
+
     private void atualizarUtilizador() {
         lblCondutor.setText(DadosAplicacao.getGestor().getUtilizador());
     }
@@ -183,11 +186,17 @@ public class DetalhesViagem extends javax.swing.JDialog {
     private void aceitar_click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceitar_click
         String datatext = txtData.getText();
         String ocupacao = txtOcupacao.getText();
+        Data data = validarData();
+
         if (datatext.isEmpty() || ocupacao.isEmpty()) {
             JOptionPane.showMessageDialog(this, ERRO1);
         }
-        
-        
+        if (!dataCheck) {
+            //todo
+
+        }
+
+
     }//GEN-LAST:event_aceitar_click
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -253,5 +262,11 @@ public class DetalhesViagem extends javax.swing.JDialog {
     private javax.swing.JTextField txtOcupacao;
     // End of variables declaration//GEN-END:variables
 
+    private Data validarData() {
+        String date = txtData.getText();
+        dataCheck = true;
+        return Data.parse(date);
+
+    }
 
 }
